@@ -11,7 +11,9 @@
     <nav class="navbar navbar-light bg-light">
         <a class="navbar-brand" href="/">Tipprunde</a>
     </nav>
-    {% block body %}{% endblock %}
+    <div class="container mt-4">
+        {% block body %}{% endblock %}
+    </div>
     {% block javascripts %}
         {{ encore_entry_script_tags('app') }}
     {% endblock %}
