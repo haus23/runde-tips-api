@@ -2,14 +2,14 @@
 <html>
     <head>
         <meta charset="UTF-8">
-        <title>{% block title %}runde.tips{% endblock %}</title>
+        <title>{% block title %}{% endblock %} - runde.tips</title>
         {% block stylesheets %}
             {{ encore_entry_link_tags('app') }}
         {% endblock %}
     </head>
     <body>
     <nav class="navbar navbar-light bg-light">
-        <a class="navbar-brand" href="/">runde.tips</a>
+        <a class="navbar-brand" href="/">Tipprunde</a>
     </nav>
     {% block body %}{% endblock %}
     {% block javascripts %}
