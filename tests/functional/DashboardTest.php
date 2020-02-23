@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Tests;
+namespace Functional\Tests;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
-class DashboardControllerTest extends WebTestCase
+class DashboardTest extends WebTestCase
 {
     public function testDashboardOpens()
     {
