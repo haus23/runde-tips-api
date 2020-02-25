@@ -11,6 +11,6 @@ class SecurityTest extends WebTestCase
         $client = static::createClient();
         $crawler = $client->request('GET', '/migration');
 
-        $this->assertResponseStatusCodeSame(403);
+        $this->assertResponseStatusCodeSame(401);
     }
 }
