@@ -1,0 +1,12 @@
+security:
+    encoders:
+        # InMemory Users
+        Symfony\Component\Security\Core\User\User: plaintext
+
+    providers:
+        # After having a real super admin in the db it's safe to remove this provider
+        dev_admin:
+            memory:
+                users:
+                    admin: { password: 'pa$$word', roles: ['ROLE_ADMIN'] }
+

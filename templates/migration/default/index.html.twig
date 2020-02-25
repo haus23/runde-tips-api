@@ -1,7 +1,15 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello DefaultController!{% endblock %}
+{% block title %}Migration{% endblock %}
 
 {% block body %}
-<h1>Migration</h1>
+    <h1>Migration</h1>
+    <div class="list-group w-50 mt-4 mx-auto">
+        <a href="{{ path('migration_users') }}" class="list-group-item list-group-item-action">
+            Migrate Users
+        </a>
+        <a href="#" class="list-group-item list-group-item-action disabled">
+            Migrate Championships
+        </a>
+    </div>
 {% endblock %}
