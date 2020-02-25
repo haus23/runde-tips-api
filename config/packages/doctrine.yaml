@@ -5,12 +5,12 @@ doctrine:
             default:
                 url: '%env(DATABASE_URL)%'
                 driver: 'pdo_mysql'
-                server_version: 'mariadb-10.4'
+                server_version: 'mariadb-10.4.12'
                 charset: utf8mb4
             legacydb:
                 url: '%env(LEGACYDB_URL)%'
                 driver: 'pdo_mysql'
-                server_version: 'mariadb-10.4'
+                server_version: 'mariadb-10.4.12'
                 charset: utf8mb4
 
     orm:
