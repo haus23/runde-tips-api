@@ -26,6 +26,11 @@ class User
      */
     private $email;
 
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $legacy_id;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -51,6 +56,18 @@ class User
     public function setEmail(?string $email): self
     {
         $this->email = $email;
+
+        return $this;
+    }
+
+    public function getLegacyId(): ?int
+    {
+        return $this->legacy_id;
+    }
+
+    public function setLegacyId(int $legacy_id): self
+    {
+        $this->legacy_id = $legacy_id;
 
         return $this;
     }
