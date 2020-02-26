@@ -4,7 +4,8 @@ namespace App\Model;
 
 use App\Repository\UserRepository;
 use Doctrine\DBAL\Connection;
-use Symfony\Component\HttpFoundation\Session\SessionInterface;
+use Exception;
+use Psr\Log\LoggerInterface;
 
 class MigrationUtility
 {
@@ -19,20 +20,28 @@ class MigrationUtility
     private $legacyDB;
 
     /**
+     * @var LoggerInterface
+     */
+    private $logger;
+
+    /**
      * MigrationUtility constructor.
      * @param UserRepository $userRepository
      * @param Connection $legacyDB
+     * @param LoggerInterface $logger
      */
-    public function __construct(UserRepository $userRepository, Connection $legacyDB)
+    public function __construct(UserRepository $userRepository, Connection $legacyDB, \Psr\Log\LoggerInterface $logger)
     {
         $this->userRepository = $userRepository;
         $this->legacyDB = $legacyDB;
+        $this->logger = $logger;
     }
 
     /**
-     * @return bool
+     * @return int
+     * @throws Exception
      */
-    public function hasUserMigrations(): bool
+    public function countUsersToMigrate(): int
     {
         try {
             $countOfLegacyUsers = $this->legacyDB->fetchColumn('select count(id) from user');
@@ -42,23 +51,23 @@ class MigrationUtility
                 ->getQuery()
                 ->getSingleScalarResult();
 
-            return $countOfMigratedUsers < $countOfLegacyUsers;
-        } catch (\Exception $ex) {
-            return false;
+            return $countOfLegacyUsers - $countOfMigratedUsers;
+        } catch (Exception $ex) {
+            $this->logger->error('Problem with user migrations.');
+            throw new Exception('Problem with user migrations.');
         }
     }
 
     /**
-     * @return bool
+     * @return int
      */
-    public function hasChampionshipMigrations(): bool
+    public function countChampionshipsToMigrate(): int
     {
-        return false;
+        return -1;
     }
 
     public function migrateUsers() {
         $championships = $this->legacyDB->fetchAll('select id from turnier order by `order`');
-        dump($championships);
 
     }
 }
