@@ -12,6 +12,7 @@
         <a class="navbar-brand" href="/">Tipprunde</a>
     </nav>
     <div class="container mt-4">
+        {{ include('_page_header.html.twig') }}
         {% block body %}{% endblock %}
     </div>
     {% block javascripts %}

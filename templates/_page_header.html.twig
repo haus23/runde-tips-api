@@ -1,0 +1,20 @@
+{%  set title = 'migration' in app.request.pathinfo ? 'Migration' %}
+{%  set parts = app.request.pathinfo | split('/') %}
+
+{% if title %}
+    <h1>{{ title }}</h1>
+{% endif %}
+
+{% if parts | length >= 3 %}
+    {% set url = '/' %}
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            {% for route in parts %}
+                {% set url = url ~ route %}
+                {% set a_title = route == '' ? 'Home' : route | capitalize %}
+                <li class="breadcrumb-item"><a href="{{ url }}">{{ a_title }}</a></li>
+                {% set url = route == '' ? url : url ~ '/' %}
+            {% endfor %}
+        </ol>
+    </nav>
+{% endif %}
