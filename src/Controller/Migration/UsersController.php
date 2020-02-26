@@ -2,8 +2,9 @@
 
 namespace App\Controller\Migration;
 
-use Doctrine\DBAL\Connection;
+use App\Model\MigrationUtility;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 class UsersController extends AbstractController
@@ -11,14 +12,17 @@ class UsersController extends AbstractController
     /**
      * @Route("/migration/users", name="migration_users")
      *
-     * @param Connection $legacyDB
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @param MigrationUtility $migrationUtility
+     * @return Response
      */
-    public function index(Connection $legacyDB)
+    public function index(MigrationUtility $migrationUtility)
     {
-        $legacyUsers = $legacyDB->fetchAll('select * from user');
-        dump($legacyUsers);
-        
+        if (!$migrationUtility->hasUserMigrations()) {
+
+        }
+
+        $migrationUtility->migrateUsers();
+
         return $this->render('migration/users/index.html.twig', [
             'controller_name' => 'UsersController',
         ]);

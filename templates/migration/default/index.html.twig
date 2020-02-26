@@ -5,10 +5,12 @@
 {% block body %}
     <h1>Migration</h1>
     <div class="list-group w-50 mt-4 mx-auto">
-        <a href="{{ path('migration_users') }}" class="list-group-item list-group-item-action">
+        <a href="{{ path('migration_users') }}"
+           class="list-group-item list-group-item-action {{ not hasUserMigrations ? 'disabled' }}">
             Migrate Users
         </a>
-        <a href="#" class="list-group-item list-group-item-action disabled">
+        <a href="#"
+           class="list-group-item list-group-item-action {{ not hasChampionshipMigrations ? 'disabled' }}">
             Migrate Championships
         </a>
     </div>
