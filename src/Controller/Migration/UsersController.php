@@ -11,7 +11,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class UsersController extends AbstractController
 {
     /**
-     * @Route("/migration/users", name="migration_users")
+     * @Route("/migration/users", name="migration_users", methods={"GET"})
      *
      * @param MigrationUtility $migrationUtility
      * @return Response
@@ -26,11 +26,23 @@ class UsersController extends AbstractController
             $error = $e->getMessage();
         }
 
-        $migrationUtility->migrateUsers();
-
         return $this->render('migration/users/index.html.twig', [
             'countOfUsers' => $countOfUsersToMigrate,
             'error' => $error
         ]);
+    }
+
+    /**
+     * @Route("/migration/users", methods={"POST"})
+     *
+     * @param MigrationUtility $migrationUtility
+     * @return Response
+     * @throws Exception
+     */
+    public function migrate(MigrationUtility $migrationUtility)
+    {
+        $migrationUtility->migrateUsers();
+
+        return $this->redirectToRoute('migration');
     }
 }

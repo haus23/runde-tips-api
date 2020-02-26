@@ -2,13 +2,20 @@
 
 namespace App\Model;
 
+use App\Entity\User;
 use App\Repository\UserRepository;
 use Doctrine\DBAL\Connection;
+use Doctrine\ORM\EntityManagerInterface;
 use Exception;
 use Psr\Log\LoggerInterface;
 
 class MigrationUtility
 {
+    /**
+     * @var EntityManagerInterface
+     */
+    private $em;
+
     /**
      * @var UserRepository
      */
@@ -26,13 +33,14 @@ class MigrationUtility
 
     /**
      * MigrationUtility constructor.
-     * @param UserRepository $userRepository
+     * @param EntityManagerInterface $em
      * @param Connection $legacyDB
      * @param LoggerInterface $logger
      */
-    public function __construct(UserRepository $userRepository, Connection $legacyDB, \Psr\Log\LoggerInterface $logger)
+    public function __construct(EntityManagerInterface $em, Connection $legacyDB, \Psr\Log\LoggerInterface $logger)
     {
-        $this->userRepository = $userRepository;
+        $this->em = $em;
+        $this->userRepository = $em->getRepository(User::class);
         $this->legacyDB = $legacyDB;
         $this->logger = $logger;
     }
@@ -66,8 +74,40 @@ class MigrationUtility
         return -1;
     }
 
+    /**
+     * @throws Exception
+     */
     public function migrateUsers() {
-        $championships = $this->legacyDB->fetchAll('select id from turnier order by `order`');
 
+        try {
+            $championships = $this->legacyDB->fetchAll('select id from turnier order by `order` limit 5');
+
+            $migratedUsers = $this->userRepository->findAll();
+            $legacyIds = array_map(function(User $u) { return $u->getLegacyId(); }, $migratedUsers);
+
+            $usersToMigrateQuery = 'select u.id, u.name from user u, spieler s where s.turnier_id = ? and u.id = s.user_id';
+
+            foreach ($championships as $championship) {
+                $championshipId = $championship['id'];
+                $usersToMigrate = $this->legacyDB->executeQuery($usersToMigrateQuery, [$championshipId])->fetchAll();
+
+                foreach ($usersToMigrate as $u) {
+
+                    if (array_search($u['id'], $legacyIds) === false) {
+                        $legacyIds[] = $u['id'];
+
+                        $user = new User();
+                        $user->setName($u['name']);
+                        $user->setLegacyId(($u['id']));
+                        $this->em->persist($user);
+                    }
+                }
+            }
+
+            $this->em->flush();
+        } catch (Exception $ex) {
+            $this->logger->error('Problem with user migrations.');
+            throw new Exception('Problem with user migrations.');
+        }
     }
 }
