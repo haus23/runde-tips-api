@@ -1,1 +1,17 @@
 @import "~bootstrap/scss/bootstrap";
+
+// Simple responsive CSS Grid:
+// https://css-tricks.com/responsive-grid-magazine-layout-in-just-20-lines-of-css/
+
+.r-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  grid-gap: 1em;
+}
+
+@media (max-width: 480px) {
+  .r-grid {
+    display: flex;
+    flex-direction: column;
+  }
+}
