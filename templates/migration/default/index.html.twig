@@ -1,8 +1,6 @@
-{% extends 'base.html.twig' %}
+{% extends 'migration/_layout.html.twig' %}
 
-{% block title %}Migration{% endblock %}
-
-{% block body %}
+{% block content %}
     <div class="list-group mt-4 mx-auto">
         <a href="{{ path('migration_users') }}"
            class="list-group-item list-group-item-action {{ numberOfUsers == 0 ? 'disabled' }}">

@@ -1,0 +1,24 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Migration{% endblock %}
+
+{% block body %}
+<div class="container-fluid container-md mt-3">
+    <h1>Migration</h1>
+    {%  set parts = app.request.pathinfo | split('/') %}
+    {% if parts | length >= 3 %}
+        {% set url = '/' %}
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                {% for route in parts %}
+                    {% set url = url ~ route %}
+                    {% set a_title = route == '' ? 'Home' : route | capitalize %}
+                    <li class="breadcrumb-item"><a href="{{ url }}">{{ a_title }}</a></li>
+                    {% set url = route == '' ? url : url ~ '/' %}
+                {% endfor %}
+            </ol>
+        </nav>
+    {% endif %}
+    {% block content %}{% endblock %}
+</div>
+{% endblock %}
