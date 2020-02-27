@@ -3,14 +3,18 @@
 {% block title %}Migration{% endblock %}
 
 {% block body %}
-    <div class="list-group w-50 mt-4 mx-auto">
+    <div class="list-group mt-4 mx-auto">
         <a href="{{ path('migration_users') }}"
-           class="list-group-item list-group-item-action {{ not hasUserMigrations ? 'disabled' }}">
-            Migrate Users
+           class="list-group-item list-group-item-action {{ numberOfUsers == 0 ? 'disabled' }}">
+            <b>Migrate Users</b>
+            <br>
+            {{ numberOfUsers == 0 ? '(Alles erledigt)' : "(Noch #{numberOfUsers} User umzuwandeln)" }}
         </a>
         <a href="#"
-           class="list-group-item list-group-item-action {{ not hasChampionshipMigrations ? 'disabled' }}">
-            Migrate Championships
+           class="list-group-item list-group-item-action {{ numberOfChampionships == 0 ? 'disabled' }}">
+            <b>Migrate Championships</b>
+            <br>
+            {{ numberOfChampionships == 0 ? '(Alles erledigt)' : "(Noch #{numberOfChampionships} Turniere umzuwandeln)" }}
         </a>
     </div>
 {% endblock %}

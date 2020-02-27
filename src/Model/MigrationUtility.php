@@ -83,7 +83,7 @@ class MigrationUtility
         $numberOfMigratedUsers = 0;
 
         try {
-            $championships = $this->legacyDB->fetchAll('select id from turnier order by `order` limit 6');
+            $championships = $this->legacyDB->fetchAll('select id from turnier order by `order`');
 
             $migratedUsers = $this->userRepository->findAll();
             $legacyIds = array_map(function(User $u) { return $u->getLegacyId(); }, $migratedUsers);

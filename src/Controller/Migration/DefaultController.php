@@ -20,8 +20,8 @@ class DefaultController extends AbstractController
     public function index(MigrationUtility $migrationUtility)
     {
         return $this->render('migration/default/index.html.twig', [
-            'hasUserMigrations' => $migrationUtility->countUsersToMigrate() > 0,
-            'hasChampionshipMigrations' => $migrationUtility->countChampionshipsToMigrate() > 0
+            'numberOfUsers' => $migrationUtility->countUsersToMigrate(),
+            'numberOfChampionships' => $migrationUtility->countChampionshipsToMigrate()
         ]);
     }
 }

@@ -6,9 +6,15 @@
     <div class="card">
         <div class="card-body">
             <h5 class="card-title">User umwandeln</h5>
-            <p class="card-text">Es gibt noch {{ countOfUsers }} Mitspieler umzuwandeln</p>
+            <p class="card-text">
+                {% if countOfUsers > 0 %}
+                Es gibt noch {{ countOfUsers }} Mitspieler umzuwandeln
+                {% else %}
+                Keine weiteren Mitspieler umzuwandeln.
+                {% endif %}
+            </p>
             <form method="post" action="">
-                <button type="submit" class="btn btn-primary">Leg los</button>
+                <button type="submit" {{ countOfUsers == 0 ? 'disabled' }} class="btn btn-primary">Leg los</button>
             </form>
         </div>
     </div>
