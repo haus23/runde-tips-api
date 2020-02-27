@@ -1,7 +1,7 @@
 security:
     encoders:
         # InMemory Users
-        Symfony\Component\Security\Core\User\User: 'auto'
+        Symfony\Component\Security\Core\User\User: plaintext
 
     # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
     providers:
@@ -9,7 +9,7 @@ security:
         dev_admin:
             memory:
                 users:
-                    admin: { password: '$argon2id$v=19$m=65536,t=4,p=1$R09yQjBLQWFTMDJhZEIvZw$GntswzsZM7ed/reFKsTihp8XVRviBvhfPMcOJV5BWhk', roles: ['ROLE_ADMIN'] }
+                    admin: { password: '%env(ADMIN_PASSWORD)%', roles: ['ROLE_ADMIN'] }
 
     firewalls:
         dev:
