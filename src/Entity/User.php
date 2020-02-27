@@ -31,6 +31,26 @@ class User
      */
     private $legacy_id;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $account;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $password;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $reset_key;
+
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $reset_key_issued_at;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -68,6 +88,54 @@ class User
     public function setLegacyId(int $legacy_id): self
     {
         $this->legacy_id = $legacy_id;
+
+        return $this;
+    }
+
+    public function getAccount(): ?string
+    {
+        return $this->account;
+    }
+
+    public function setAccount(?string $account): self
+    {
+        $this->account = $account;
+
+        return $this;
+    }
+
+    public function getPassword(): ?string
+    {
+        return $this->password;
+    }
+
+    public function setPassword(?string $password): self
+    {
+        $this->password = $password;
+
+        return $this;
+    }
+
+    public function getResetKey(): ?string
+    {
+        return $this->reset_key;
+    }
+
+    public function setResetKey(?string $reset_key): self
+    {
+        $this->reset_key = $reset_key;
+
+        return $this;
+    }
+
+    public function getResetKeyIssuedAt(): ?\DateTimeInterface
+    {
+        return $this->reset_key_issued_at;
+    }
+
+    public function setResetKeyIssuedAt(?\DateTimeInterface $reset_key_issued_at): self
+    {
+        $this->reset_key_issued_at = $reset_key_issued_at;
 
         return $this;
     }
