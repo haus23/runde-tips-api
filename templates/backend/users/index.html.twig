@@ -1,0 +1,27 @@
+{% extends 'backend/_layout.html.twig' %}
+
+{% block content %}
+    <header>
+        <h3>Spieler</h3>
+    </header>
+    <section>
+        <table class="table">
+            <thead>
+            <tr>
+                <th>Nr</th>
+                <th>Name</th>
+                <th>Email</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for u in users %}
+                <tr>
+                    <td>{{ u.id }}</td>
+                    <td>{{ u.name }}</td>
+                    <td>{{ u.email }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </section>
+{% endblock %}

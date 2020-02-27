@@ -5,17 +5,17 @@
 {% block body %}
     <div class="container-fluid">
         <div class="row">
-            <div class="col-xl-2 rt-sidebar">
+            <div class="col-xl-2 col-md-3 rt-sidebar">
                 <header>
                     <h3>Verwaltung</h3>
                 </header>
-                <nav class="nav">
+                <nav>
                     <div><a href="{{ path('backend') }}">Startseite</a></div>
-                    <div><a href="#">Spieler</a></div>
+                    <div><a href="{{ path('backend_users') }}">Spieler</a></div>
                     <div><a href="#">Turniere</a></div>
                 </nav>
             </div>
-            <div class="col-xl-10 rt-content">
+            <div class="col-xl-10 col-md-9 rt-content">
                 {% block content %}{% endblock %}
             </div>
         </div>

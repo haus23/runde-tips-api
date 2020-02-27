@@ -25,6 +25,12 @@
   height: calc(100vh - 4rem);
   padding-right: 0;
 
+  header {
+    height: 4rem;
+    >* { line-height: 4rem; }
+    border-bottom: 1px solid rgba(0,0,0,0.2);
+  }
+
   nav {
     padding-top: 0.5rem;
     max-height: calc(100vh - 8rem);
@@ -40,14 +46,9 @@
 }
 
 .rt-content {
-  padding-left: 0;
-  header {
-    padding-left: 2rem;
-  }
-}
+  padding-left: 2rem;
 
-.rt-sidebar header, .rt-content header {
-  height: 4rem;
-  >* { line-height: 4rem; }
-  border-bottom: 1px solid rgba(0,0,0,0.2);
+  header, section {
+    padding-top: 2rem;
+  }
 }
