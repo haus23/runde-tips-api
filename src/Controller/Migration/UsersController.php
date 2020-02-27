@@ -41,7 +41,8 @@ class UsersController extends AbstractController
      */
     public function migrate(MigrationUtility $migrationUtility)
     {
-        $migrationUtility->migrateUsers();
+        $numberOfMigratedUsers = $migrationUtility->migrateUsers();
+        $this->addFlash('success', "$numberOfMigratedUsers User umgewandelt.");
 
         return $this->redirectToRoute('migration');
     }

@@ -75,12 +75,15 @@ class MigrationUtility
     }
 
     /**
+     * @return int Number of migrated users
      * @throws Exception
      */
-    public function migrateUsers() {
+    public function migrateUsers(): int {
+
+        $numberOfMigratedUsers = 0;
 
         try {
-            $championships = $this->legacyDB->fetchAll('select id from turnier order by `order` limit 5');
+            $championships = $this->legacyDB->fetchAll('select id from turnier order by `order` limit 6');
 
             $migratedUsers = $this->userRepository->findAll();
             $legacyIds = array_map(function(User $u) { return $u->getLegacyId(); }, $migratedUsers);
@@ -100,6 +103,8 @@ class MigrationUtility
                         $user->setName($u['name']);
                         $user->setLegacyId(($u['id']));
                         $this->em->persist($user);
+
+                        ++$numberOfMigratedUsers;
                     }
                 }
             }
@@ -109,5 +114,7 @@ class MigrationUtility
             $this->logger->error('Problem with user migrations.');
             throw new Exception('Problem with user migrations.');
         }
+
+        return $numberOfMigratedUsers;
     }
 }

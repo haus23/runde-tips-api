@@ -1,14 +1,17 @@
-/*
- * Welcome to your app's main JavaScript file!
- *
- * We recommend including the built version of this JavaScript file
- * (and its CSS file) in your base layout (base.html.twig).
- */
-
-// any CSS you import will output into a single css file (app.css in this case)
+// Styles
 import '../css/app.scss';
 
-// Need jQuery? Install it with "yarn add jquery", then uncomment to import it.
-// import $ from 'jquery';
+// Toast Handling
+import { Notyf } from 'notyf';
+import 'notyf/notyf.min.css';
 
-console.log('Hello Webpack Encore! Edit me in assets/js/app.js');
+const notyf = new Notyf({
+    duration: 5000
+});
+const toasts = document.querySelector('.toasts').children;
+for (const toast of toasts) {
+    notyf.open({
+        type: toast.dataset.type,
+        message: toast.textContent
+    });
+}
