@@ -1,0 +1,25 @@
+{{ form_start(form, {'attr': {'novalidate': 'novalidate', 'class': 'needs-validation'}}) }}
+    {{ form_row(form.name) }}
+    <div class="form-group">
+        {{ form_label(form.email) }}
+        {{ form_widget(form.email) }}
+        <div class="invalid-feedback">
+            Das ist keine korrekte Email-Adresse.
+        </div>
+    </div>
+    {{ form_row(form.account) }}
+    {{ form_row(form.reset_key) }}
+    <div class="d-flex rt-actions">
+    <button class="btn btn-primary">{{ button_label|default('Save') }}</button>
+
+    {% set disabled = form.vars.value.email is empty or form.vars.value.account is empty %}
+    <a class="btn btn-info {{ disabled ? 'disabled' }}" href="{{ path('user_set_reset_key', {'id': form.vars.value.id}) }}">
+        Neues Token
+    </a>
+
+    {% set disabled = form.vars.value.resetKey is empty %}
+    <a class="btn btn-info {{ disabled ? 'disabled' }}" href="{{ path('user_send_reset_key', {'id': form.vars.value.id}) }}">
+        Token senden
+    </a>
+    </div>
+{{ form_end(form) }}

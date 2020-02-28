@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
@@ -23,6 +24,7 @@ class User
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Assert\Email
      */
     private $email;
 
@@ -124,6 +126,7 @@ class User
     public function setResetKey(?string $reset_key): self
     {
         $this->reset_key = $reset_key;
+        $this->setResetKeyIssuedAt(new \DateTime());
 
         return $this;
     }

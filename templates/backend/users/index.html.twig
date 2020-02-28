@@ -18,7 +18,9 @@
             {% for u in users %}
                 <tr>
                     <td>{{ u.id }}</td>
-                    <td>{{ u.name }}</td>
+                    <td>
+                        <a href="{{ path('user_edit', {'id': u.id}) }}">{{ u.name }}</a>
+                    </td>
                     <td>{{ u.email }}</td>
                     <td>{{ u.account }}</td>
                 </tr>

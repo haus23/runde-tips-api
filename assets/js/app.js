@@ -1,6 +1,9 @@
 // Styles
 import '../css/app.scss';
 
+// jQuery
+import $ from 'jquery';
+
 // Toast Handling
 import { Notyf } from 'notyf';
 import 'notyf/notyf.min.css';
@@ -15,3 +18,13 @@ for (const toast of toasts) {
         message: toast.textContent
     });
 }
+
+// Form Validation
+$('.needs-validation').submit((event) => {
+    const form = event.currentTarget;
+    if (form.checkValidity() === false) {
+        event.preventDefault();
+        event.stopPropagation();
+        form.classList.add('was-validated');
+    }
+});

@@ -1,0 +1,10 @@
+{% extends 'backend/_layout.html.twig' %}
+
+{% block content %}
+    <header>
+        <h3>Spieler bearbeiten</h3>
+    </header>
+    <section>
+        {{ include('backend/users/_form.html.twig', {'button_label': 'Speichern'}) }}
+    </section>
+{% endblock %}
