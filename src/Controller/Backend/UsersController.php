@@ -9,6 +9,9 @@ use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
+use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\Mime\Email;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -80,12 +83,25 @@ class UsersController extends AbstractController
      *
      * @param Request $request
      * @param User $user
+     * @param MailerInterface $mailer
      * @return Response
-     * @throws Exception
      */
-    public function sendResetKey(Request $request, User $user): Response
+    public function sendResetKey(Request $request, User $user, MailerInterface $mailer): Response
     {
-        $this->addFlash('success', "Email mit Token wurde verschickt.");
+        $email = (new Email())
+            ->from('mail@runde.tips')
+            ->to($user->getEmail())
+            ->subject('Tipprunde: Passwort (Re-)Set Link')
+            ->text('Sending emails is fun again!')
+            ->html('<p>See Twig integration for better HTML integration!</p>');
+
+        try {
+            $mailer->send($email);
+            $this->addFlash('success', "Email mit Token wurde verschickt.");
+        } catch (TransportExceptionInterface $e) {
+            $this->addFlash('error', "Probleme beim Versenden des Tokens.");
+        }
+
         return $this->redirectToRoute('user_edit', ['id' => $user->getId()]);
     }
 }
