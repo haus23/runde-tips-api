@@ -34,6 +34,13 @@ security:
             # TODO: remove this auth provider after having a login form
             http_basic:
                 realm: Secured Area
+            guard:
+                authenticators:
+                    - App\Security\LoginFormAuthenticator
+            logout:
+                path: app_logout
+                # where to redirect after logout
+                # target: app_any_route
 
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#firewalls-authentication
