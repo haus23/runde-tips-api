@@ -100,7 +100,7 @@ class UsersController extends AbstractController
             ->context([
                 'name' => $user->getName(),
                 'url' => '',
-                'expiration_date' => $user->getTokenvaliduntil()
+                'expiration_date' => $user->getTokenValiduntil()
             ]);
 
         try {
