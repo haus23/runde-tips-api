@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\User;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -17,6 +18,11 @@ class UserType extends AbstractType
             ->add('name')
             ->add('email')
             ->add('account')
+            ->add('isAdmin', CheckboxType::class, [
+                'label' => 'Administrator',
+                'mapped' => false,
+                'required' => false
+            ])
             ->add('reset_token', null, [
                 'label' => 'Email Token',
                 'disabled' => true,

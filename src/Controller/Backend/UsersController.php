@@ -48,7 +48,18 @@ class UsersController extends AbstractController
     public function edit(Request $request, User $user): Response
     {
         $form = $this->createForm(UserType::class, $user);
+
+        if (in_array('ROLE_ADMIN', $user->getRoles())) {
+            $form->get('isAdmin')->setData(true);
+        }
+
         $form->handleRequest($request);
+
+        if ($form->get('isAdmin')->getData() === true) {
+            $user->setRoles(['ROLE_ADMIN']);
+        } else {
+            $user->setRoles([]);
+        }
 
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
