@@ -126,23 +126,29 @@ class User implements UserInterface
 
     public function getResetToken(): ?string
     {
+        // invalidate token if outdated
+        if ($this->reset_token !== null && (new \DateTime('now') > $this->reset_token)) {
+            $this->reset_token = null;
+            $this->token_valid_until = null;
+        }
+
         return $this->reset_token;
     }
 
     public function setResetToken(?string $reset_token): self
     {
         $this->reset_token = $reset_token;
-        $this->setTokenvaliduntil(new \DateTime('+7 days'));
+        $this->setTokenValiduntil(new \DateTime('+7 days'));
 
         return $this;
     }
 
-    public function getTokenvaliduntil(): ?\DateTimeInterface
+    public function getTokenValiduntil(): ?\DateTimeInterface
     {
         return $this->token_valid_until;
     }
 
-    public function setTokenvaliduntil(?\DateTimeInterface $token_valid_until): self
+    public function setTokenValiduntil(?\DateTimeInterface $token_valid_until): self
     {
         $this->token_valid_until = $token_valid_until;
 
