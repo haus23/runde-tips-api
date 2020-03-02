@@ -31,9 +31,6 @@ security:
             # Remeber to change to the users provider.
             provider: dev_all_users
 
-            # TODO: remove this auth provider after having a login form
-            http_basic:
-                realm: Secured Area
             guard:
                 authenticators:
                     - App\Security\LoginFormAuthenticator
