@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -127,7 +128,7 @@ class User implements UserInterface
     public function getResetToken(): ?string
     {
         // invalidate token if outdated
-        if ($this->reset_token !== null && (new \DateTime('now') > $this->reset_token)) {
+        if ($this->reset_token !== null && (new DateTime('now') > $this->token_valid_until)) {
             $this->reset_token = null;
             $this->token_valid_until = null;
         }
