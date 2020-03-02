@@ -1,7 +1,11 @@
 security:
     encoders:
-        # InMemory Users
-        Symfony\Component\Security\Core\User\User: plaintext
+        # InMemory Dev Users
+        Symfony\Component\Security\Core\User\User:
+            algorithm: plaintext
+        # App Users
+        App\Entity\User:
+            algorithm: auto
 
     # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
     providers:
@@ -10,6 +14,13 @@ security:
             memory:
                 users:
                     admin: { password: '%env(ADMIN_PASSWORD)%', roles: ['ROLE_ADMIN'] }
+        users:
+            entity:
+                class: App\Entity\User
+                property: account
+        dev_all_users:
+            chain:
+                providers: ['dev_admin', 'users']
 
     firewalls:
         dev:
@@ -17,7 +28,8 @@ security:
             security: false
         main:
             anonymous: lazy
-            provider: dev_admin
+            # Remeber to change to the users provider.
+            provider: dev_all_users
 
             # TODO: remove this auth provider after having a login form
             http_basic:
