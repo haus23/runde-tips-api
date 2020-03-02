@@ -17,7 +17,7 @@ class UserType extends AbstractType
             ->add('name')
             ->add('email')
             ->add('account')
-            ->add('reset_key', null, [
+            ->add('reset_token', null, [
                 'label' => 'Email Token',
                 'disabled' => true,
                 'attr' => ['placeholder' => 'Um ein Token zu erzeugen müssen Email und Account gesetzt sein.']

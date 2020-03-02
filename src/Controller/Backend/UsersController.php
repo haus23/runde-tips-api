@@ -5,12 +5,15 @@ namespace App\Controller\Backend;
 use App\Entity\User;
 use App\Form\UserType;
 use App\Repository\UserRepository;
+use DateTime;
 use Exception;
+use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
 use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\Mime\Address;
 use Symfony\Component\Mime\Email;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -60,18 +63,18 @@ class UsersController extends AbstractController
     }
 
     /**
-     * @Route("/{id}/set-key", name="user_set_reset_key", methods={"GET"})
+     * @Route("/{id}/set-token", name="user_set_reset_token", methods={"GET"})
      *
      * @param Request $request
      * @param User $user
      * @return Response
      * @throws Exception
      */
-    public function setResetKey(Request $request, User $user): Response
+    public function setResetToken(Request $request, User $user): Response
     {
 
         $key = sha1(random_bytes(10));
-        $user->setResetKey($key);
+        $user->setResetToken($key);
         $this->getDoctrine()->getManager()->flush();
 
         $this->addFlash('success', "Email Token wurde erzeugt.");
@@ -79,21 +82,26 @@ class UsersController extends AbstractController
     }
 
     /**
-     * @Route("/{id}/send-key", name="user_send_reset_key", methods={"GET"})
+     * @Route("/{id}/send-token", name="user_send_reset_token", methods={"GET"})
      *
      * @param Request $request
      * @param User $user
      * @param MailerInterface $mailer
      * @return Response
+     * @throws Exception
      */
-    public function sendResetKey(Request $request, User $user, MailerInterface $mailer): Response
+    public function sendResetToken(Request $request, User $user, MailerInterface $mailer): Response
     {
-        $email = (new Email())
+        $email = (new TemplatedEmail())
             ->from('mail@runde.tips')
-            ->to($user->getEmail())
+            ->to(new Address($user->getEmail(), $user->getName()))
             ->subject('Tipprunde: Passwort (Re-)Set Link')
-            ->text('Sending emails is fun again!')
-            ->html('<p>See Twig integration for better HTML integration!</p>');
+            ->textTemplate('emails/set-password.txt.twig')
+            ->context([
+                'name' => $user->getName(),
+                'url' => '',
+                'expiration_date' => $user->getTokenvaliduntil()
+            ]);
 
         try {
             $mailer->send($email);

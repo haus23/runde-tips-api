@@ -46,12 +46,12 @@ class User
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $reset_key;
+    private $reset_token;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
      */
-    private $reset_key_issued_at;
+    private $token_valid_until;
 
     public function getId(): ?int
     {
@@ -118,27 +118,27 @@ class User
         return $this;
     }
 
-    public function getResetKey(): ?string
+    public function getResetToken(): ?string
     {
-        return $this->reset_key;
+        return $this->reset_token;
     }
 
-    public function setResetKey(?string $reset_key): self
+    public function setResetToken(?string $reset_token): self
     {
-        $this->reset_key = $reset_key;
-        $this->setResetKeyIssuedAt(new \DateTime());
+        $this->reset_token = $reset_token;
+        $this->setTokenvaliduntil(new \DateTime('+7 days'));
 
         return $this;
     }
 
-    public function getResetKeyIssuedAt(): ?\DateTimeInterface
+    public function getTokenvaliduntil(): ?\DateTimeInterface
     {
-        return $this->reset_key_issued_at;
+        return $this->token_valid_until;
     }
 
-    public function setResetKeyIssuedAt(?\DateTimeInterface $reset_key_issued_at): self
+    public function setTokenvaliduntil(?\DateTimeInterface $token_valid_until): self
     {
-        $this->reset_key_issued_at = $reset_key_issued_at;
+        $this->token_valid_until = $token_valid_until;
 
         return $this;
     }
