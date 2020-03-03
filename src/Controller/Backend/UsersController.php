@@ -16,6 +16,7 @@ use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Address;
 use Symfony\Component\Mime\Email;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 /**
  * Class UsersController
@@ -110,7 +111,10 @@ class UsersController extends AbstractController
             ->textTemplate('emails/set-password.txt.twig')
             ->context([
                 'name' => $user->getName(),
-                'url' => '',
+                'url' => $this->generateUrl('app_set_password',
+                    ['id' => $user->getId(), 'token' => $user->getResetToken()],
+                    UrlGeneratorInterface::ABSOLUTE_URL
+                ),
                 'expiration_date' => $user->getTokenValiduntil()
             ]);
 
