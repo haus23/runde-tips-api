@@ -27,7 +27,9 @@ security:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
         main:
-            anonymous: lazy
+            anonymous: true
+            lazy: true
+            
             # Remeber to change to the users provider.
             provider: dev_all_users
 
